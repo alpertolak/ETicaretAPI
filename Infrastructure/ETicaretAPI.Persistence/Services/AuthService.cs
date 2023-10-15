@@ -16,14 +16,14 @@ namespace ETicaretAPI.Persistence.Services
         readonly ITokenHandler _tokenHandler;
         readonly IConfiguration _configuration;
         readonly SignInManager<AppUser> _signInManager;
-        readonly UserService _userSevice;
+        readonly IUserService _userSevice;
 
         public AuthService(
             UserManager<AppUser> userManager,
             ITokenHandler tokenHandler,
             IConfiguration configuration,
             SignInManager<AppUser> signInManager,
-            UserService userSevice)
+            IUserService userSevice)
         {
             _userManager = userManager;
             _tokenHandler = tokenHandler;
@@ -32,6 +32,7 @@ namespace ETicaretAPI.Persistence.Services
             _userSevice = userSevice;
         }
 
+        //GOOGLE LOGİN
         public async Task<Token> GoogleLogin(string idToken,int accessTokenLifeTime)
         {
             var settings = new GoogleJsonWebSignature.ValidationSettings()
@@ -66,7 +67,9 @@ namespace ETicaretAPI.Persistence.Services
             if (result)
             {
                 await _userManager.AddLoginAsync(user, info);
+
                 Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTime);
+
                 await _userSevice.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 5); //refreshtoken oluşturuluyor.
                 //kullanıcıya göre oluşan token bilgisi geri dönderiliyor
                 return token;
@@ -74,6 +77,7 @@ namespace ETicaretAPI.Persistence.Services
             throw new Exception("Invalid External authentication!");
         }
 
+        //LOGİN
         public async Task<Token> Login(string usernameOrEmail, string password, int accessTokenLifeTime)
         {
             AppUser user = await _userManager.FindByNameAsync(usernameOrEmail);
@@ -91,7 +95,8 @@ namespace ETicaretAPI.Persistence.Services
                 await _userSevice.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 5); //refreshtoken oluşturuluyor.
                 return token;
             }
-            throw new AuthenticationErrorException();
+            else
+                throw new AuthenticationErrorException();
         }
     }
 }

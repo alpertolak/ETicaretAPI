@@ -22,12 +22,12 @@ namespace ETicaretAPI.Persistence
         {
             services.AddDbContext<ETicaretAPIDbContext>(options => options.UseNpgsql(Configuration.ConnectionString));
 
-
+           
             //Indetity kontrol mekanizmamız projemize ekleniyor.
             services.AddIdentity<AppUser, AppRole>(options =>
             {
                 options.Password.RequiredLength = 3;
-                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireNonAlphanumeric = false;    
                 options.Password.RequireDigit= false;
                 options.Password.RequireLowercase= false;
                 options.Password.RequireUppercase= false;
@@ -52,11 +52,11 @@ namespace ETicaretAPI.Persistence
             services.AddScoped<IInvoiceReadRepository, InvoiceReadRepository>();
             services.AddScoped<IInvoiceWriteRepository, InvoiceWriteRepository>();
 
-            services.AddScoped<IUserService, UserService>();
-
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IExternalAuthentication, AuthService>();
             services.AddScoped<IInternalAuthentication, AuthService>();
+
+            services.AddScoped<IUserService, UserService>();
 
 
         }

@@ -33,7 +33,7 @@ namespace ETicaretAPI.Infrastructure.Services.Token
             SigningCredentials _signingCredentials = new(securityKey,SecurityAlgorithms.HmacSha256);
                 
             //oluşturulacak token ayarlarını veriyoruz.
-            token.Expiration = DateTime.Now.AddSeconds(ExpireSecond);
+            token.Expiration = DateTime.UtcNow.AddSeconds(ExpireSecond);
 
             JwtSecurityToken securityToken = new(
                 audience: _configuration["Token:Audience"],
@@ -49,7 +49,7 @@ namespace ETicaretAPI.Infrastructure.Services.Token
 
             token.RefreshToken = CreateRefreshToken();//refreshToken alınır.
             return token;
-        }
+        } 
 
         public string CreateRefreshToken()
         {
@@ -57,8 +57,6 @@ namespace ETicaretAPI.Infrastructure.Services.Token
             using RandomNumberGenerator random = RandomNumberGenerator.Create();
             random.GetBytes(number);
             return Convert.ToBase64String(number);
-
-
         }
     }
 }

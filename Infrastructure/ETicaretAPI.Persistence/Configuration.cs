@@ -1,16 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ETicaretAPI.Persistence
 {
     static class Configuration
     {
-        public static string ConnectionString 
-        { 
+        public static string ConnectionString
+        {
             get
             {
                 ConfigurationManager configurationManager = new();
@@ -19,7 +14,7 @@ namespace ETicaretAPI.Persistence
 
 
                 return configurationManager.GetConnectionString("PostgreSQL");
-            } 
+            }
         }
     }
 }
