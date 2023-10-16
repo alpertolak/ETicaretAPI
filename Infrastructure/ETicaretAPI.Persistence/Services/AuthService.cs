@@ -2,11 +2,12 @@
 using ETicaretAPI.Application.Absractions.Token;
 using ETicaretAPI.Application.DTOs;
 using ETicaretAPI.Application.Exceptions;
-using ETicaretAPI.Application.Features.Commands.AppUser.LoginUser;
 using ETicaretAPI.Domain.Entities.Identity;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ETicaretAPI.Persistence.Services
 {
@@ -33,15 +34,15 @@ namespace ETicaretAPI.Persistence.Services
         }
 
         //GOOGLE LOGİN
-        public async Task<Token> GoogleLogin(string idToken,int accessTokenLifeTime)
+        public async Task<Token> GoogleLogin(string idToken, int accessTokenLifeTime)
         {
             var settings = new GoogleJsonWebSignature.ValidationSettings()
             {
                 Audience = new List<string> { _configuration["ExternalLoginSettings:Google:ClientId"] }
-            }; 
+            };
 
             var payload = await GoogleJsonWebSignature.ValidateAsync(idToken, settings);
-            
+
             var info = new UserLoginInfo("GOOGLE", payload.Subject, "GOOGLE");
 
             AppUser user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
@@ -97,6 +98,21 @@ namespace ETicaretAPI.Persistence.Services
             }
             else
                 throw new AuthenticationErrorException();
+        }
+
+        public async Task<Token> RefreshTokenLogin(string RefreshToken)
+        {
+            AppUser? user = await _userManager.Users.FirstOrDefaultAsync(u => u.RefreshToken == RefreshToken);
+
+            if (user != null && user?.RefreshTokenEndDate > DateTime.UtcNow)
+            {
+                Token token = _tokenHandler.CreateAccessToken(15);
+                await _userSevice.UpdateRefreshToken(RefreshToken, user, token.Expiration, 15);
+                return token;
+            }
+            else
+                throw new NotFoundUserException();
+            
         }
     }
 }

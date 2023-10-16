@@ -1,5 +1,6 @@
 ﻿using ETicaretAPI.Application.Features.Commands.AppUser.GoogleLogin;
 using ETicaretAPI.Application.Features.Commands.AppUser.LoginUser;
+using ETicaretAPI.Application.Features.Commands.AppUser.RefreshTokenLogin;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,9 +26,9 @@ namespace ETicaretAPI.API.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> RefreshToken(LoginUserCommandRequest loginUserCommandRequest)
+        public async Task<IActionResult> RefreshToken([FromQuery] RefreshTokenLoginCommandRequest refreshTokenLoginCommandRequest)
         {
-            LoginUserCommandResponse response = await _mediator.Send(loginUserCommandRequest);
+            RefreshTokenLoginCommandResponse response = await _mediator.Send(refreshTokenLoginCommandRequest);
             return Ok(response);
         }
 
