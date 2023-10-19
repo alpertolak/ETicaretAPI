@@ -71,7 +71,7 @@ namespace ETicaretAPI.Persistence.Services
 
                 Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTime);
 
-                await _userSevice.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 5); //refreshtoken oluşturuluyor.
+                await _userSevice.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 25); //refreshtoken oluşturuluyor.
                 //kullanıcıya göre oluşan token bilgisi geri dönderiliyor
                 return token;
             }
@@ -93,21 +93,21 @@ namespace ETicaretAPI.Persistence.Services
             if (result.Succeeded) //authentication başarılı!
             {
                 var token = _tokenHandler.CreateAccessToken(accessTokenLifeTime); //başarılı olan kullanıcının token 
-                await _userSevice.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 5); //refreshtoken oluşturuluyor.
+                await _userSevice.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 25); //refreshtoken oluşturuluyor.
                 return token;
             }
             else
                 throw new AuthenticationErrorException();
         }
 
-        public async Task<Token> RefreshTokenLogin(string RefreshToken)
+        public async Task<Token> RefreshTokenLoginAsync(string RefreshToken)
         {
             AppUser? user = await _userManager.Users.FirstOrDefaultAsync(u => u.RefreshToken == RefreshToken);
 
             if (user != null && user?.RefreshTokenEndDate > DateTime.UtcNow)
             {
                 Token token = _tokenHandler.CreateAccessToken(15);
-                await _userSevice.UpdateRefreshToken(RefreshToken, user, token.Expiration, 15);
+                await _userSevice.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 25);
                 return token;
             }
             else
@@ -115,4 +115,4 @@ namespace ETicaretAPI.Persistence.Services
             
         }
     }
-}
+} 

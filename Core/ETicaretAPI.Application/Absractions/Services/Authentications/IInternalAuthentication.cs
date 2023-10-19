@@ -5,6 +5,6 @@ namespace ETicaretAPI.Application.Absractions.Services.Authentications
     {
         Task<DTOs.Token> Login(String usernameOrEmail, String password, int accessTokenLifeTime);
 
-        Task<DTOs.Token> RefreshTokenLogin(String RefreshToken);
+        Task<DTOs.Token> RefreshTokenLoginAsync(String RefreshToken);
     }
 }

@@ -13,9 +13,9 @@ namespace ETicaretAPI.Application.Features.Commands.AppUser.RefreshTokenLogin
             this._authService = authService;
         }
 
-        public async Task<RefreshTokenLoginCommandResponse> Handle(RefreshTokenLoginCommandRequest request, CancellationToken cancellationToken)
+        public async Task<RefreshTokenLoginCommandResponse> Handle(RefreshTokenLoginCommandRequest request, CancellationToken cancellationToken) 
         {
-            Token token = await _authService.RefreshTokenLogin(request.RefreshToken);
+            Token token = await _authService.RefreshTokenLoginAsync(request.RefreshToken);
 
             return new()
             {
