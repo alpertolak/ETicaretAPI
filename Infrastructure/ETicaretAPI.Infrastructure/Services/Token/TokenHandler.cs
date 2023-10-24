@@ -1,4 +1,5 @@
 ﻿using ETicaretAPI.Application.Absractions.Token;
+using ETicaretAPI.Domain.Entities.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +24,7 @@ namespace ETicaretAPI.Infrastructure.Services.Token
             _configuration = configuration;
         }
 
-        public Application.DTOs.Token CreateAccessToken(int ExpireSecond)
+        public Application.DTOs.Token CreateAccessToken(int ExpireSecond, AppUser user)
         {
             Application.DTOs.Token token = new(); 
 
@@ -38,9 +40,10 @@ namespace ETicaretAPI.Infrastructure.Services.Token
             JwtSecurityToken securityToken = new(
                 audience: _configuration["Token:Audience"],
                 issuer: _configuration["Token:Issuer"],
-                expires: token.Expiration, 
-                notBefore: DateTime.UtcNow, 
-                signingCredentials: _signingCredentials
+                expires: token.Expiration,
+                notBefore: DateTime.UtcNow,
+                signingCredentials: _signingCredentials,
+                claims: new List<Claim> { new(ClaimTypes.Name, user.UserName) }
             ); 
 
             //Token oluşturucu sınıfında bir örnek alalım.

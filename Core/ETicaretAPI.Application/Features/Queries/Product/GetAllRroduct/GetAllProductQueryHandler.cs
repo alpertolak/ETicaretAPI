@@ -1,11 +1,6 @@
 ﻿using ETicaretAPI.Application.Repositories;
-using ETicaretAPI.Application.RequestParameters;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace ETicaretAPI.Application.Features.Queries.Product.GetAllRroduct
 {
@@ -13,17 +8,22 @@ namespace ETicaretAPI.Application.Features.Queries.Product.GetAllRroduct
     {
         private readonly IProductReadRepository _productReadRepository;
         private readonly IProductWriteRepository _productWriteRepository;
+        private ILogger<GetAllProductQueryHandler> _logger;
 
         public GetAllProductQueryHandler(
             IProductWriteRepository productWriteRepository,
-            IProductReadRepository productReadRepository)
+            IProductReadRepository productReadRepository,
+            ILogger<GetAllProductQueryHandler> logger)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
+            _logger = logger;
         }
 
         public async Task<GetAllProductQueryResponse> Handle(GetAllRroductQueryRequest request, CancellationToken cancellationToken)
         {
+            //_logger.LogInformation("Get All Products");
+            throw new Exception("Ürünler gelirken hata oldu");
             var totalCount = _productReadRepository.GetAll(false).Count();
             var products = _productReadRepository.GetAll(false).Skip(request.size * request.page).Take(request.size).Select(p => new
             {
