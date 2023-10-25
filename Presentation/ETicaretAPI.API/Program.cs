@@ -6,6 +6,7 @@ using ETicaretAPI.Infrastructure.Enums;
 using ETicaretAPI.Infrastructure.Filters;
 using ETicaretAPI.Infrastructure.Services;
 using ETicaretAPI.Persistence;
+using ETicaretAPI.SignalR;
 using FluentValidation.AspNetCore;
 using Google.Apis.Logging;
 using Google.Apis.Util;
@@ -24,6 +25,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddPersistenceServices();
 builder.Services.AddInfrastructureServices();
 builder.Services.AddApllicationService();
+builder.Services.AddSignalRService();
 //builder.Services.AddStorage(StorageType.Azure);
 
 
