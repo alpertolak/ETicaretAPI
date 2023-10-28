@@ -35,7 +35,7 @@ builder.Services.AddStorage(StorageType.Azure);
 
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
-policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod()
+policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials()
 ));
 
 Logger log = new LoggerConfiguration()
@@ -125,5 +125,5 @@ app.Use(async (context, next) =>
 });
 
 app.MapControllers();
-
+app.MapHubs();
 app.Run();

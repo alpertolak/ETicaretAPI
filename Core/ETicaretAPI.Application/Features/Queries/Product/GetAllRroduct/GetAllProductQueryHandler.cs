@@ -23,7 +23,7 @@ namespace ETicaretAPI.Application.Features.Queries.Product.GetAllRroduct
         public async Task<GetAllProductQueryResponse> Handle(GetAllRroductQueryRequest request, CancellationToken cancellationToken)
         {
             //_logger.LogInformation("Get All Products");
-            throw new Exception("Ürünler gelirken hata oldu");
+
             var totalCount = _productReadRepository.GetAll(false).Count();
             var products = _productReadRepository.GetAll(false).Skip(request.size * request.page).Take(request.size).Select(p => new
             {

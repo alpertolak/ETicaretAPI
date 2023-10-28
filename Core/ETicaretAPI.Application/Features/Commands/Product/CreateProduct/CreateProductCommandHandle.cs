@@ -1,4 +1,5 @@
-﻿using ETicaretAPI.Application.Repositories;
+﻿using ETicaretAPI.Application.Absractions.Hubs;
+using ETicaretAPI.Application.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -14,11 +15,13 @@ namespace ETicaretAPI.Application.Features.Commands.Product.CreateProduct
     {
         private readonly IProductReadRepository _productReadRepository;
         private readonly IProductWriteRepository _productWriteRepository;
+        private readonly IProductHubService _productHubService;
 
-        public CreateProductCommandHandle(IProductReadRepository productReadRepository, IProductWriteRepository productWriteRepository)
+        public CreateProductCommandHandle(IProductReadRepository productReadRepository, IProductWriteRepository productWriteRepository, IProductHubService productHubService)
         {
             _productReadRepository = productReadRepository;
             _productWriteRepository = productWriteRepository;
+            _productHubService = productHubService;
         }
 
 
@@ -31,6 +34,7 @@ namespace ETicaretAPI.Application.Features.Commands.Product.CreateProduct
                 Stock = request.Stock
             });
             await _productWriteRepository.SaveAsync();
+            await _productHubService.ProductAddedMessageAsync($"{request.Name} isimli ürün eklenmiştir");
             return new();
         }
     }
