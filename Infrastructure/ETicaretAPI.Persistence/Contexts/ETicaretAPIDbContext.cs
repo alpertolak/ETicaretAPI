@@ -16,9 +16,10 @@ namespace ETicaretAPI.Persistence.Contexts
         public ETicaretAPIDbContext(DbContextOptions options) : base(options) { }
 
         public DbSet<EntityProduct> Products { get; set; }
-        public DbSet<EntityOrder> Orders { get; set; }
-        public DbSet<EntityCustomer> Customers { get; set; }
 
+        public DbSet<EntityOrder> Orders { get; set; }
+
+        public DbSet<EntityCustomer> Customers { get; set; }
 
         public DbSet<Domain.Entities.File> Files { get; set; }
 
@@ -26,10 +27,14 @@ namespace ETicaretAPI.Persistence.Contexts
 
         public DbSet<InvoiceFile> InvoiceFiles{ get; set; }
 
+        public DbSet<EntityBasket> Baskets { get; set; }
+
+        public DbSet<BasketItem> BasketItems { get; set; }
+
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            //entiyler üzerinden yaılan değişiklikleri ya da yeni eklenen verinin yakalanmasını sağlayan propertydir. Track edilen verileri yakalayıp elde etmemizi sağlar. 
+            //entiyler üzerinden yapılan değişiklikleri ya da yeni eklenen verinin yakalanmasını sağlayan propertydir. Track edilen verileri yakalayıp elde etmemizi sağlar. 
             var datas = ChangeTracker.Entries<EntityBase>();
 
             foreach (var data in datas)

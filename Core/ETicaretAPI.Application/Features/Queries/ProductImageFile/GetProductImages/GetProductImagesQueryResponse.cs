@@ -11,5 +11,6 @@ namespace ETicaretAPI.Application.Features.Queries.ProductImageFile.GetProductIm
         public string? filePath { get; set; }
         public string? fileName { get; set; }
         public Guid Id { get; set; }
+        public Boolean showcase { get; set; }
     }
 }
