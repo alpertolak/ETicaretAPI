@@ -21,7 +21,7 @@ namespace ETicaretAPI.Application.Features.Queries.Product.GetProduct
 
         public async Task<GetByIdProductQueryResponse> Handle(GetByIdProductQueryRequest request, CancellationToken cancellationToken)
         {
-            EntityProduct product = await _productReadRepository.GetByIdAsync(request.Id, false);
+            Domain.Entities.EntityProduct product = await _productReadRepository.GetByIdAsync(request.Id, false);
             return new()
             {
                 Name = product.Name,

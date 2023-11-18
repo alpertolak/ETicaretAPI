@@ -3,13 +3,6 @@ using ETicaretAPI.Application.Repositories;
 using ETicaretAPI.Application.Repository;
 using ETicaretAPI.Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ETicaretAPI.Application.Features.Commands.ProductImageFile.UploadProductImage
 {
@@ -36,7 +29,7 @@ namespace ETicaretAPI.Application.Features.Commands.ProductImageFile.UploadProdu
         {
             List<(string fileName, string pathOrContainerName)> result = await _storageService.UploadAsync("photo-images", request.Files);
 
-            EntityProduct product = await _productReadRepository.GetByIdAsync(request.Id); // veri tabanında resimi eşleştirmek için id bilgisi üzerinden ürün bilgileri çekiliyor
+            Domain.Entities.EntityProduct product = await _productReadRepository.GetByIdAsync(request.Id); // veri tabanında resimi eşleştirmek için id bilgisi üzerinden ürün bilgileri çekiliyor
 
             await _productImageFileWriteRepository.AddRangeAsync(result.Select(r => new ProductImagesFile
             {

@@ -5,6 +5,7 @@ using ETicaretAPI.Application.Repository;
 using ETicaretAPI.Domain.Entities.Identity;
 using ETicaretAPI.Persistence.Contexts;
 using ETicaretAPI.Persistence.Repositories;
+using ETicaretAPI.Persistence.Repositories.Basket;
 using ETicaretAPI.Persistence.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -52,11 +53,18 @@ namespace ETicaretAPI.Persistence
             services.AddScoped<IInvoiceReadRepository, InvoiceReadRepository>();
             services.AddScoped<IInvoiceWriteRepository, InvoiceWriteRepository>();
 
-            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IExternalAuthentication, AuthService>();
             services.AddScoped<IInternalAuthentication, AuthService>();
-
+            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
+            
+            services.AddScoped<IBasketItemReadRepository, BasketItemReadRepository>();
+            services.AddScoped<IBasketItemWriteRepository, BasketItemWriteRepository>();
+
+            services.AddScoped<IBasketReadRepository, BasketReadRepository>();
+            services.AddScoped<IBasketWriteRepository, BasketWriteRepository>();
+
+            services.AddScoped<IBasketService, BasketService>();
 
 
         }

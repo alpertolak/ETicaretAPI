@@ -10,9 +10,11 @@ namespace ETicaretAPI.Domain.Entities
     public class EntityOrder : EntityBase
     {
         public Guid CustomerId { get; set; }
+
         public String Description { get; set; }
         public String Address { get; set; }
 
+        public EntityBasket Basket { get; set; }
         public ICollection<EntityProduct> Products { get; set; }
         public EntityCustomer Customer { get; set; }
 
