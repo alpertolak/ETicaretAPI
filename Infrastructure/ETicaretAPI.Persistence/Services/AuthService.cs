@@ -2,7 +2,10 @@
 using ETicaretAPI.Application.Absractions.Token;
 using ETicaretAPI.Application.DTOs;
 using ETicaretAPI.Application.Exceptions;
+using ETicaretAPI.Application.Repositories;
 using ETicaretAPI.Domain.Entities.Identity;
+using ETicaretAPI.Persistence.Contexts;
+using ETicaretAPI.Persistence.Repositories;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,19 +21,22 @@ namespace ETicaretAPI.Persistence.Services
         readonly IConfiguration _configuration;
         readonly SignInManager<AppUser> _signInManager;
         readonly IUserService _userSevice;
+        private readonly IProductReadRepository _productReadRepository;
 
         public AuthService(
             UserManager<AppUser> userManager,
             ITokenHandler tokenHandler,
             IConfiguration configuration,
             SignInManager<AppUser> signInManager,
-            IUserService userSevice)
+            IUserService userSevice,
+            IProductReadRepository productReadRepository)
         {
             _userManager = userManager;
             _tokenHandler = tokenHandler;
             _configuration = configuration;
             _signInManager = signInManager;
             _userSevice = userSevice;
+            _productReadRepository = productReadRepository;
         }
 
         //GOOGLE LOGİN
@@ -81,6 +87,7 @@ namespace ETicaretAPI.Persistence.Services
         //LOGİN
         public async Task<Token> Login(string usernameOrEmail, string password, int accessTokenLifeTime)
         {
+            Console.WriteLine();
             AppUser user = await _userManager.FindByNameAsync(usernameOrEmail);
             if (user == null)
                 user = await _userManager.FindByEmailAsync(usernameOrEmail);

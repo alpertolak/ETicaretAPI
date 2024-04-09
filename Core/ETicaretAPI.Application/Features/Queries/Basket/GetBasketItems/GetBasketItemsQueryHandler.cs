@@ -17,11 +17,11 @@ namespace ETicaretAPI.Application.Features.Queries.Basket.GetBasketItems
             var basketItems = await _basketService.getBasketItemsAsync();
             return basketItems.Select(ba => new GetBasketItemsQueryResponse
             {
-                BasketItemId = ba.Product.Id.ToString(),
+                BasketItemId = ba.Id.ToString(),
                 Name = ba.Product.Name,
                 Price = ba.Product.Price,
                 Quantity = ba.Quantity
-            })  .ToList();
+            }).ToList();
         }
     }
 }

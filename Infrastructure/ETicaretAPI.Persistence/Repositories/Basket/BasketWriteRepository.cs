@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Persistence.Repositories.Basket
+namespace ETicaretAPI.Persistence.Repositories
 {
     public class BasketWriteRepository : WriteRepository<EntityBasket>, IBasketWriteRepository
     {

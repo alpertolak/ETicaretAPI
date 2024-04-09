@@ -23,7 +23,6 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpContextAccessor();//cilent'tan gelen requeste istinaden oluþturlan httpContext nesnesine katmanmardaki class'lar (business logic) üzerinden eriþmemizi saðlayan bir servistir.
-
 builder.Services.AddPersistenceServices();
 builder.Services.AddInfrastructureServices();
 builder.Services.AddApllicationService();

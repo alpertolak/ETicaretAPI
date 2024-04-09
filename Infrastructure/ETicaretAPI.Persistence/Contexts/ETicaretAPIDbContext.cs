@@ -1,6 +1,7 @@
 ﻿using ETicaretAPI.Domain.Entities;
 using ETicaretAPI.Domain.Entities.Common;
 using ETicaretAPI.Domain.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,6 +30,7 @@ namespace ETicaretAPI.Persistence.Contexts
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
             builder.Entity<EntityOrder>()
                 .HasKey(b => b.Id);
 
@@ -48,9 +50,9 @@ namespace ETicaretAPI.Persistence.Contexts
             {
                 _ = data.State switch
                 {
-                    EntityState.Added => data.Entity.CreatedDate = DateTime.UtcNow,
-                    EntityState.Modified => data.Entity.UpdatedDate = DateTime.UtcNow,
-                    _ => DateTime.UtcNow
+                    EntityState.Added => data.Entity.CreatedDate = DateTime.Now,
+                    EntityState.Modified => data.Entity.UpdatedDate = DateTime.Now,
+                    _ => DateTime.Now
                 };
             }
 

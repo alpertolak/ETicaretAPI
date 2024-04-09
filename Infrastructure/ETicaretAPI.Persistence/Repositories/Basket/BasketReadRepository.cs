@@ -14,6 +14,7 @@ namespace ETicaretAPI.Persistence.Repositories
     {
         public BasketReadRepository(ETicaretAPIDbContext context) : base(context)
         {
+
         }
     }
 }
